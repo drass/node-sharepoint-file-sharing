@@ -1,6 +1,22 @@
 # Sharepoint file sharing
 NodeJS server for Sharepoint download/upload.  
+This acts as a proxy between your API and Sharepoint, allowing you to download/upload files from Sharepoint without exposing your Sharepoint credentials to your API.  
 Tested in a production environment.
+
+## Features
+- Download files from Sharepoint
+- Upload files to Sharepoint
+
+## Usage
+### Download
+To download a file from Sharepoint, send a GET request to `/download` with the following query parameters:
+* `file` - The file path in Sharepoint
+* `folder` - The folder path in Sharepoint
+
+### Upload
+To upload a file to Sharepoint, send a POST request to `/ask-to-upload` with the following form data:
+* `file_name` - The file name, this will be passed to your defined API in order to get the file (e.g. `yourapi.com/query={file_name}`)
+* `file_title` - The file title, this will be the title of the file in Sharepoint
 
 ## Requirements
 - [NodeJS](https://nodejs.org/en/)
@@ -17,9 +33,9 @@ Remember to set the environment variables in the docker-compose file, in the `.e
 
 ## Configuration
 The server can be configured with environment variables:  
-* `ORIGIN_DOMAIN` - Your APIs origin domain
-* `ORIGIN_API` - You API path for the file upload
-* `SHAREPOINT_URL` - Your Sharepoint URL
+* `ORIGIN_DOMAIN` - Your APIs origin domain for CORS
+* `ORIGIN_API` - You API path for the file upload withouth the domain (e.g. `/api/v1/file`). The file name will be appended to this path to get the file (e.g. `yourapi.com/query={file_name}`)
+* `SHAREPOINT_URL` - Your Sharepoint URL, where the files will be uploaded to
 * `SHAREPOINT_USER` - Your Sharepoint username
 * `SHAREPOINT_PASSWORD` - Your Sharepoint password
 
